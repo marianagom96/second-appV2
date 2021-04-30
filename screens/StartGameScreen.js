@@ -11,15 +11,16 @@ import {
 import Card from "../components/Card";
 import Input from "../components/Input";
 import Colors from "../constants/Colors";
-const StartGameScreen = (props) => {
-  const [enteredValue, setEnteredValue] = useState("");
+import NumberContainer from "../components/NumberContainer";
+const StartGameScreen = props => {
+  const [enteredValue, setEnteredValue] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
-  const numberInputHandlre = (inputText) => {
-    setEnteredValue(inputText.replace(/[⌃0-9]/g, ""));
+  const numberInputHandlre = inputText => {
+    setEnteredValue(inputText.replace(/[⌃0-9]/g,''));
   };
   const resetInputHandler = () => {
-    setEnteredValue("");
+    setEnteredValue('');
     setConfirmed(false);
   };
   const confirmInputHandler = () => {
@@ -33,12 +34,21 @@ const StartGameScreen = (props) => {
       return;
     }
     setConfirmed(true);
-    setSelectedNumber(parseInt(enteredValue));
-    setEnteredValue("");
+    setSelectedNumber(chosenNumber);
+    setEnteredValue('');
+    Keyboard.dismiss();
   };
+
   let confirmedOutput;
+
   if (confirmed) {
-    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>;
+    confirmedOutput = (
+      <Card style={styles.summaryContainer}>
+        <Text>You selected</Text>
+        <NumberContainer>{selectedNumber}</NumberContainer>
+        <Button title="START GAME" />
+      </Card>
+    );
   }
   return (
     <TouchableWithoutFeedback
@@ -55,7 +65,7 @@ const StartGameScreen = (props) => {
             blurOnSubmit
             autoCapitalize="none"
             autoCorrect={false}
-            keyboardType="numeric"
+            KeyboardType="numeric"
             maxLength={2}
             onChangeText={numberInputHandlre}
           />
@@ -108,6 +118,10 @@ const styles = StyleSheet.create({
   input: {
     width: 50,
     textAlign: "center",
+  },
+  summaryContainer: {
+    marginTop: 20,
+    alignItems:'center'
   },
 });
 export default StartGameScreen;
