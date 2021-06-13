@@ -12,30 +12,34 @@ import Card from "../components/Card";
 import Input from "../components/Input";
 import Colors from "../constants/Colors";
 import NumberContainer from "../components/NumberContainer";
+
 const StartGameScreen = props => {
   const [enteredValue, setEnteredValue] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
-  const numberInputHandlre = inputText => {
+  const numberInputHandler = inputText => {
     setEnteredValue(inputText.replace(/[⌃0-9]/g,''));
   };
+
   const resetInputHandler = () => {
     setEnteredValue('');
     setConfirmed(false);
   };
+  
   const confirmInputHandler = () => {
     const chosenNumber = parseInt(enteredValue);
-    if (chosenNumber === NaN || chosenNumber <= 0 || chosenNumber > 99) {
+    if ( isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
       Alert.alert(
         "Invalid number!",
         "Number has to be a number between 1 and 99",
         [{ text: "Okay", style: "destructive", onPress: resetInputHandler }]
       );
+
       return;
     }
     setConfirmed(true);
-    setSelectedNumber(chosenNumber);
-    setEnteredValue('');
+    setSelectedNumber(chosenNumber); 
+    setEnteredValue('');   
     Keyboard.dismiss();
   };
 
@@ -50,10 +54,11 @@ const StartGameScreen = props => {
       </Card>
     );
   }
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        Keyboard.dismmiss();
+        Keyboard.dismiss();
       }}
     >
       <View style={styles.screen}>
@@ -67,7 +72,7 @@ const StartGameScreen = props => {
             autoCorrect={false}
             KeyboardType="numeric"
             maxLength={2}
-            onChangeText={numberInputHandlre}
+            onChangeText={numberInputHandler}
           />
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
